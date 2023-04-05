@@ -28,6 +28,7 @@ $ yarn add react-redux redux-persist @reduxjs/toolkit
 ```
 ## ✒️ App.tsx, main.tsx 수정 및 작성
 ### ⚡ App.tsx
+- `Counter.tsx`를 `import`한 뒤 스타일링하여 작성한다.
 ```typescript
 import React from 'react';
 import logo from '../public/logo512.png';
@@ -87,6 +88,9 @@ export default function App(): JSX.Element {
 }
 ```
 ### ⚡ main.tsx
+- 리덕스에서 `Provider`를 `import`한 뒤 밑에 나올 `store.ts`에서 `store`를 가져온다. 이후 `<Provider store={store}></Provider>`로 `<App />`를 감싸면 리덕스를 사용할 수 있다.
+- 마찬가지로 `store`를 가져온 후 `let persistor = persistStore(store);`로 감싼다.
+- 이후 `<PersistGate loading={null} persistor={persistor}></PersistGate>`을 사용하면 변수명이 로컬스토리지에 저장된다.
 ```typescript
 import React from 'react'
 import ReactDOM from 'react-dom/client'
@@ -111,6 +115,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 ```
 ## ✒️ store.ts, Counter.tsx, Counter.module.css, counterSlice.ts 수정 및 작성
 ### ⚡ store.ts
+- 리덕스 툴킷을 사용하다가 새로고침 시 리덕스의 `state`가 사라지는 것을 방지하기 위해 로컬스토리지에 자동으로 저장하는 `Redux-Persist` 라이브러리를 사용한다.
+- 밑의 내용과 같이 작성하고 `main.tsx`에  `import`하여 사용하면 로컬스토리지에 자동으로 저장되어, 새로고침을 해도 `state` 값이 유지된다.
 ```typescript
 import {configureStore} from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
@@ -137,6 +143,7 @@ const store = configureStore({
 export default store;
 ```
 ### ⚡ Counter.tsx
+- `counterSlice.ts`에서 사용할 리덕스 툴킷 함수들을 `import`하여 사용한다.
 ```typescript
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -202,6 +209,7 @@ export default function Counter(): JSX.Element {
 }
 ```
 ### ⚡ Counter.module.css
+- `Counter.tsx`의 스타일을 작성한다.
 ```css
 .row {
     display: flex;
@@ -281,6 +289,7 @@ export default function Counter(): JSX.Element {
 }
 ```
 ### ⚡ counterSlice.ts
+- 리덕스 툴킷을 사용하여 `counter`예제 함수 작성.
 ```typescript
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import store from "../app/store";
